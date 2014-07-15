@@ -7,19 +7,18 @@ import javax.inject.Named;
 
 import edu.bionic.easyfly.persistence.Cities;
 import edu.bionic.easyfly.persistence.CitiesDao;
-import edu.bionic.easyfly.persistence.FlightsDao;
 
 @Named
 public class CitiesService {
-	
+
 	@Inject
 	private CitiesDao citiesDao;
-	
-	public List<Cities> getAllCities(){
+
+	public List<Cities> getAllCities() {
 		return citiesDao.getAllCities();
 	}
-	
-	public String getCityById(int id){
+
+	public String getCityById(int id) {
 		return citiesDao.getCityById(id);
 	}
 

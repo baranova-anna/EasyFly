@@ -13,9 +13,9 @@ import edu.bionic.easyfly.persistence.Companies;
 @Named
 @Scope("session")
 public class CompaniesBean {
-	
+
 	List<Companies> companies = null;
-	
+
 	@Inject
 	private CompaniesService companiesService;
 
@@ -26,8 +26,8 @@ public class CompaniesBean {
 	public void setCompanies(List<Companies> companies) {
 		this.companies = companies;
 	}
-	
-	public void refreshList(){
+
+	public void refreshList() {
 		companies = companiesService.getAllCompanies();
 	}
 

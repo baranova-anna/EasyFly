@@ -13,7 +13,7 @@ import edu.bionic.easyfly.persistence.Aircrafts;
 @Named
 @Scope("session")
 public class AircraftsBean {
-	
+
 	List<Aircrafts> aircrafts = null;
 
 	public List<Aircrafts> getAircrafts() {
@@ -23,17 +23,18 @@ public class AircraftsBean {
 	public void setAircrafts(List<Aircrafts> aircrafts) {
 		this.aircrafts = aircrafts;
 	}
-	
+
 	@Inject
 	private AircraftsService aircraftsService;
-	
-	public void refreshList(){
+
+	public void refreshList() {
 		aircrafts = aircraftsService.getAllAircrafts();
 	}
-	
-	public String getAircraftName(int id){
+
+	public String getAircraftName(int id) {
 		Aircrafts a = aircraftsService.getAircraftName(id);
-		return a.getAircraft_model()+ ", " + a.getBoard_number() +", "+a.getCompany().getCompany_name();
+		return a.getAircraft_model() + ", " + a.getBoard_number() + ", "
+				+ a.getCompany().getCompany_name();
 	}
 
 }

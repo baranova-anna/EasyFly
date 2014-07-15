@@ -12,9 +12,7 @@
 	<ui:define name="content">
 
 		<h:form>
-			<br />
-			<p:dataTable id="flights_list" value="#{flightsBean.userBasket}"
-				var="item">
+			<br/><p:dataTable id="flights_list" value="#{flightsBean.userBasket}" var="item">
 				<p:column headerText="#{msg['flight']}">
 					<h:outputText value="#{item.flight_number}" />
 				</p:column>
@@ -49,7 +47,6 @@
 					<p:commandButton value="#{msg['delete']}"
 						action="#{flightsBean.deleteFlightFromBasket(item)}" update="@all" />
 				</p:column>
-
 				<f:facet name="footer">  
             		#{msg['total']} #{flightsBean.total_sum}$  
         		</f:facet>

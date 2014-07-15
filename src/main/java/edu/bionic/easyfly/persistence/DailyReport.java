@@ -3,17 +3,17 @@ package edu.bionic.easyfly.persistence;
 import java.util.Date;
 
 public class DailyReport {
-	
+
 	private Date book_date;
 	private double total_sum;
 	private long ticket_count;
-	
-	public DailyReport(Date book_date, long ticket_count, double total_sum){
+
+	public DailyReport(Date book_date, long ticket_count, double total_sum) {
 		this.book_date = book_date;
 		this.ticket_count = ticket_count;
 		this.total_sum = total_sum;
 	}
-	
+
 	public Date getBook_date() {
 		return book_date;
 	}

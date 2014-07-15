@@ -1,9 +1,7 @@
 package edu.bionic.easyfly.presentation;
 
-import java.util.Date;
 import java.util.List;
 
-import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -15,17 +13,18 @@ import edu.bionic.easyfly.persistence.Flights;
 @Named
 @Scope("session")
 public class FlightsListBean {
-	
+
 	private List<Flights> flights = null;
 	private List<Flights> searchFlights = null;
-	private List<Flights> searchFlightsForUser = null; 
+	private List<Flights> searchFlightsForUser = null;
 	private List<Flights> top10Flights = null;
 	private List<Flights> bestOffer = null;
 	@Inject
 	private FlightsService flightsService;
-	
-	public FlightsListBean(){   }
-	
+
+	public FlightsListBean() {
+	}
+
 	public List<Flights> getFlights() {
 		return flights;
 	}
@@ -33,7 +32,7 @@ public class FlightsListBean {
 	public void setFlights(List<Flights> flights) {
 		this.flights = flights;
 	}
-	
+
 	public List<Flights> getSearchFlights() {
 		return flights;
 	}
@@ -41,8 +40,6 @@ public class FlightsListBean {
 	public void setSearchFlights(List<Flights> flights) {
 		this.flights = flights;
 	}
-	
-	
 
 	public List<Flights> getSearchFlightsForUser() {
 		return searchFlightsForUser;
@@ -52,7 +49,7 @@ public class FlightsListBean {
 		this.searchFlightsForUser = searchFlightsForUser;
 	}
 
-	public void refreshList(){
+	public void refreshList() {
 		flights = flightsService.getAllFlightsList();
 	}
 

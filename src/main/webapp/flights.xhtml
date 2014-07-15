@@ -34,20 +34,16 @@
 		#{flightsListBean.refreshList()}
 		#{citiesBean.refreshList()}
 		#{aircraftsBean.refreshList()}
-		<h:form id="editremove" rendered="#{loginBean.isAuthorized(password)}">
-
-			<br />
+		<h:form id="editremove" rendered="#{loginBean.isAuthorized(password)}"><br />
 			<p:dataTable id="remove_list" value="#{flightsListBean.flights}"
 				var="item" paginator="true" rows="10"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="5,10,15,20" emptyMessage="#{msg['empty_list']}"
 				filteredValue="#{flightsBean.filteredFlights}" editable="true"
 				editMode="cell">
-
 				<p:ajax event="cellEdit"
 					actionListener="#{flightsBean.updateFlight(item)}"
 					listener="#{flightsBean.onCellEdit}" update="@all" />
-
 				<p:column sortBy="flight_number" filterBy="flight_number"
 					headerText="#{msg['flight']}" footerText="#{msg['flight']}"
 					filterMatchMode="contains">
@@ -167,20 +163,16 @@
 						</f:facet>
 					</p:cellEditor>
 				</p:column>
-
 				<p:column>
 					<f:facet name="header">#{msg['action']}</f:facet>
-
 					<p:commandButton value="#{msg['save']}"
 						action="#{flightsBean.updateFlight(item)}" update="@all" />
-
 					<p:commandButton value="#{msg['remove']}"
 						actionListener="#{flightsBean.deleteFlight(item)}"
 						rendered="#{flightsBean.isRemoved(item)}" update="@all">
 						<p:confirm header="#{msg['confirmation']}"
 							message="#{msg['ifDelete']}" icon="ui-icon-alert" />
 					</p:commandButton>
-
 					<p:confirmDialog global="true" showEffect="fade"
 						hideEffect="explode" style="align:center">
 						<p:commandButton value="#{msg['yes']}" type="button"
@@ -193,6 +185,7 @@
 			</p:dataTable>
 			<br />
 		</h:form>
+		
 	</ui:define>
 </ui:composition>
 </html>

@@ -19,7 +19,6 @@
 
 		<h:form id="welcome-analyst"
 			rendered="#{loginBean.isAuthorized(password)}">
-
 			<h:panelGrid columns="3">
 				<h:outputText value="#{msg['start_date']}"></h:outputText>
 				<p:calendar value="#{ordersBean.startDate}" pattern="yyyy-MM-dd"
@@ -31,8 +30,7 @@
 					id="popupCal2" required="true"
 					requiredMessage="#{msg['req_end_date']}" />
 				<p:message for="popupCal2" />
-			</h:panelGrid>
-			<br />
+			</h:panelGrid><br />
 			<h:panelGrid columns="3">
 				<p:commandButton id="showReportByDate"
 					action="#{ordersBean.makeDailyReport}" value="#{msg['show_daily']}"
@@ -45,8 +43,7 @@
 			</h:panelGrid>
 		</h:form>
 
-		<h:form id="report2" rendered="#{loginBean.isAuthorized(password)}">
-			<br />
+		<h:form id="report2" rendered="#{loginBean.isAuthorized(password)}"><br />
 			<p:dataTable id="table" value="#{ordersBean.destinationreport}"
 				var="r2" widgetVar="table">
 				<p:column style="text-align:center;">
@@ -68,36 +65,23 @@
 					</f:facet>
 					<h:outputText value="#{r2.total_sum}" />
 				</p:column>
-			</p:dataTable>
-			<br />
-
+			</p:dataTable><br />
 			<h:panelGrid id="charts" columns="2" style="margin: 0 auto;">
-
 				<p:panel header="#{msg['count_dest']}">
-
 					<p:pieChart id="pie1" value="#{chartBean.pieModelCount}"
 						legendPosition="w" style="width:400px; width:600px; height:300px"
 						widgetVar="pie1" />
-
 				</p:panel>
-
 				<p:panel header="#{msg['sum_dest']}">
-
 					<p:pieChart id="pie2" value="#{chartBean.pieModelSum}"
 						legendPosition="w" style="width:400px; width:600px; height:300px"
 						widgetVar="pie2" />
-
 				</p:panel>
-
-			</h:panelGrid>
-
-			<br />
-			<br />
+			</h:panelGrid><br /><br />
 			<p:commandButton value="#{msg['print']}" type="button"
 				icon="ui-icon-print" onclick="exportChart()">
 				<p:printer target="output" />
-			</p:commandButton>
-			<br />
+			</p:commandButton><br />
 			<h:commandLink>
 				<p:graphicImage value="resources/images/pdf.png"
 					style="border:none;" />
@@ -105,7 +89,6 @@
 					fileName="ReportByDestination" encoding="windows-1250"
 					preProcessor="#{fileExportProcessor.preProcessPDF2}" />
 			</h:commandLink>
-
 			<p:dialog widgetVar="dlg" showEffect="fade" modal="true"
 				header="Chart as an Image">
 				<p:outputPanel id="output" layout="block"
@@ -125,7 +108,6 @@
 					</p:dataTable>
 				</p:outputPanel>
 			</p:dialog>
-
 			<script>
 				function exportChart() {
 					$('#report2\\:output').append(pie1.exportAsImage());

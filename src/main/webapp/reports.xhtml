@@ -19,7 +19,6 @@
 
 		<h:form id="welcome-analyst"
 			rendered="#{loginBean.isAuthorized(password)}">
-
 			<h:panelGrid columns="3">
 				<h:outputText value="#{msg['start_date']}"></h:outputText>
 				<p:calendar value="#{ordersBean.startDate}" pattern="yyyy-MM-dd"
@@ -31,8 +30,7 @@
 					id="popupCal2" required="true"
 					requiredMessage="#{msg['req_end_date']}" />
 				<p:message for="popupCal2" />
-			</h:panelGrid>
-			<br />
+			</h:panelGrid><br />
 			<h:panelGrid columns="3">
 				<p:commandButton id="showReportByDate"
 					action="#{ordersBean.makeDailyReport}" value="#{msg['show_daily']}"
@@ -44,6 +42,7 @@
 					value="#{msg['logout']}" update="@all" immediate="true" />
 			</h:panelGrid>
 		</h:form>
+		
 	</ui:define>
 </ui:composition>
 </html>

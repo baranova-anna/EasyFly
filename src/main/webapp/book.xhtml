@@ -82,11 +82,11 @@
 				</p:inputText>
 				<p:message for="email" />
 				<p:watermark for="email" value="Email Address *" />
-
 			</h:panelGrid>
 			<p:commandButton value="#{msg['submit_order']}" update="@all"
 				action="#{ordersBean.addOrder}" />
 		</h:form>
+		
 	</ui:define>
 </ui:composition>
 </html>

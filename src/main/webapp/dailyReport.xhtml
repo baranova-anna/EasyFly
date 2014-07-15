@@ -17,10 +17,8 @@
 			</h3>
 		</h:form>
 
-
 		<h:form id="welcome-analyst"
 			rendered="#{loginBean.isAuthorized(password)}">
-
 			<h:panelGrid columns="3">
 				<h:outputText value="#{msg['start_date']}"></h:outputText>
 				<p:calendar value="#{ordersBean.startDate}" pattern="yyyy-MM-dd"
@@ -69,35 +67,25 @@
 					</f:facet>
 					<h:outputText value="#{r1.total_sum}" />
 				</p:column>
-			</p:dataTable>
-
-			<br />
-
+			</p:dataTable><br />
 			<h:panelGrid columns="2" style="margin: 0 auto;">
-
 				<p:panel header="#{msg['count_date']}">
 					<p:lineChart id="category1" value="#{chartBean.categoryModelCount}"
 						legendPosition="e" minY="0" maxY="20"
 						style="height:300px; width:550px; margin-top:20px" animate="true"
 						widgetVar="chart1" />
 				</p:panel>
-
 				<p:panel header="#{msg['sum_date']}">
 					<p:lineChart id="category2" value="#{chartBean.categoryModelSum}"
 						legendPosition="e" minY="0" maxY="50000"
 						style="height:300px; width:550px; margin-top:20px" animate="true"
 						widgetVar="chart2" />
 				</p:panel>
-			</h:panelGrid>
-			<br />
-			<br />
+			</h:panelGrid><br /><br />
 			<p:commandButton value="#{msg['print']}" type="button"
 				icon="ui-icon-print" onclick="exportToPdf()">
 				<p:printer target="output" />
-			</p:commandButton>
-
-			<br />
-
+			</p:commandButton><br />
 			<h:commandLink>
 				<p:graphicImage value="resources/images/pdf.png"
 					style="border:none;" />
@@ -105,8 +93,6 @@
 					encoding="windows-1250"
 					preProcessor="#{fileExportProcessor.preProcessPDF}" />
 			</h:commandLink>
-
-
 			<p:dialog widgetVar="dlg" showEffect="fade" modal="true">
 				<p:outputPanel id="output" layout="block"
 					style="width:1000px;height:800px" rendered="true">
@@ -125,7 +111,6 @@
 					</p:dataTable>
 				</p:outputPanel>
 			</p:dialog>
-
 			<script>
 				function exportToPdf() {
 					$('#report1\\:output').append(chart1.exportAsImage());
@@ -133,6 +118,7 @@
 				}
 			</script>
 		</h:form>
+		
 	</ui:define>
 </ui:composition>
 </html>

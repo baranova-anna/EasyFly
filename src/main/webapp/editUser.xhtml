@@ -17,8 +17,7 @@
 			</h3>
 		</h:form>
 
-		<h:form id="edit-user" rendered="#{loginBean.isAuthorized(password)}">
-			<br />
+		<h:form id="edit-user" rendered="#{loginBean.isAuthorized(password)}"><br />
 			<h:panelGrid columns="4">
 				<h:outputText value="#{msg['username']}"></h:outputText>
 				<h:outputText value="#{msg['email']}"></h:outputText>
@@ -42,12 +41,10 @@
 					<f:selectItems value="#{positionsBean.positions}" var="p"
 						itemValue="#{p.position_id}" itemLabel="#{p.position_name}" />
 				</p:selectOneMenu>
-
 				<p:message for="user_login" />
 				<p:message for="user_email" />
 				<p:message for="user_password" />
-			</h:panelGrid>
-			<br />
+			</h:panelGrid><br />
 			<h:panelGrid columns="3">
 				<p:commandButton value="#{msg['submit']}"
 					action="#{usersBean.updateUser(usersBean.selectedUser)}"

@@ -2,21 +2,15 @@ package edu.bionic.easyfly.presentation;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
 import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
 
 import org.primefaces.event.CellEditEvent;
 import org.springframework.context.annotation.Scope;
@@ -48,11 +42,11 @@ public class FlightsBean implements Serializable {
 	private Date search_depart_date_start;
 	private Date search_depart_date_end;
 	private Date minSearchDate;
-	private int search_qty=1;
+	private int search_qty = 1;
 	private List<Flights> userBasket = new ArrayList<Flights>();
 	private List<Flights> filteredFlights;
 	private String getDateString;
-	private int itemsInBasket; 
+	private int itemsInBasket;
 
 	public String getGetDateString(Date date) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-dd-MM hh:ss");
@@ -242,15 +236,15 @@ public class FlightsBean implements Serializable {
 	public void setSearch_qty(int search_qty) {
 		this.search_qty = search_qty;
 	}
-	
+
 	public void incrementSearchQty() {
-		if (search_qty<10){
+		if (search_qty < 10) {
 			search_qty++;
 		}
 	}
-	
+
 	public void decrementSearchQty() {
-		if (search_qty>1){
+		if (search_qty > 1) {
 			search_qty--;
 		}
 	}

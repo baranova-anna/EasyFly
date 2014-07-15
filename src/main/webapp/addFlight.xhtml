@@ -16,6 +16,7 @@
 				<h:outputText value="#{msg['no_rights']}" />
 			</h3>
 		</h:form>
+		
 		<h:form id="admin-panel"
 			rendered="#{loginBean.isAuthorized(password)}">
 			<h:panelGrid columns="4">
@@ -60,16 +61,16 @@
 				<h:outputText value="#{msg['departure2']} "></h:outputText>
 
 				<p:calendar value="#{flightsBean.departure_date}"
-					pattern="yyyy-MM-dd HH:mm" id="popupCal" mindate="#{flightsBean.minSearchDate}"
-					required="true"
+					pattern="yyyy-MM-dd HH:mm" id="popupCal"
+					mindate="#{flightsBean.minSearchDate}" required="true"
 					requiredMessage="#{msg['reqdate']}" />
 
 				<p:message for="popupCal" />
 				<h:outputText value="#{msg['arrival2']} "></h:outputText>
 
 				<p:calendar value="#{flightsBean.arrival_date}"
-					pattern="yyyy-MM-dd HH:mm" id="popupCal2" mindate="#{flightsBean.minSearchDate}"
-					required="true"
+					pattern="yyyy-MM-dd HH:mm" id="popupCal2"
+					mindate="#{flightsBean.minSearchDate}" required="true"
 					requiredMessage="#{msg['reqdate']}" />
 
 				<p:message for="popupCal2" />

@@ -23,7 +23,6 @@
         	<property name="eclipselink.weaving" value="static" />
    		</properties>
  	</persistence-unit>
- 	
 </persistence> 
         	        
   

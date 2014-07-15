@@ -9,14 +9,14 @@
 
 <ui:composition template="WEB-INF/templates/BasicTemplateWB.xhtml">
 	<ui:define name="content">
+	
 		<h:form id="thanks">
 			<h:outputText value="#{msg['success_submit']}"
-				styleClass="Three-Dee2"></h:outputText>
-			<br />
-			<br />
+				styleClass="Three-Dee2"></h:outputText><br/><br/>
 			<p:commandButton value="#{msg['return_to_start']}"
 				action="#{flightsBean.continueSearchingFlights}" update="@all" />
 		</h:form>
+		
 	</ui:define>
 </ui:composition>
 </html>
