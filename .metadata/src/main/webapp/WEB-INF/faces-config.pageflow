@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13968024005740" configfile="/EasyFlySpring2/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="newMerchant.xhtml" x="770" y="646" id="pf13968127451282" referenceLink="//@navigationRule.7/@navigationCase.1/@toViewId|" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="MerchantList.xhtml" x="554" y="870" id="pf13968127451284" referenceLink="//@navigationRule.4/@navigationCase.0/@toViewId|" path="/addUser.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="editRemoveUser.xhtml" x="338" y="891" id="pf139681749767011" referenceLink="//@navigationRule.4/@navigationCase.1/@toViewId|" path="/editRemoveUser.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="welcomeAdmin.xhtml" x="122" y="325" id="pf139681749767012" referenceLink="//@navigationRule.5/@fromViewId|" path="/welcomeAdmin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="welcomeAccountant.xhtml" x="986" y="454" id="pf139681749767013" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" path="/welcomeAccountant.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="welcomeAnalyst.xhtml" x="986" y="838" id="pf139681749767014" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" path="/welcomeAnalyst.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="welcomeSecurity.xhtml" x="122" y="709" id="pf139681749767015" referenceLink="//@navigationRule.1/@fromViewId|" path="/welcomeSecurity.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="editableUserList.xhtml" x="122" y="1093" id="pf139699836689228" referenceLink="//@navigationRule.4/@fromViewId|" path="/editableUserList.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="addFlight.xhtml" x="338" y="179" id="pf139700085926532" referenceLink="//@navigationRule.6/@fromViewId|" path="/addFlight.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="editRemoveFlights.xhtml" x="554" y="381" id="pf139700085926533" referenceLink="//@navigationRule.7/@fromViewId|" path="/searchFlight.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="editRemoveFlights.xhtml" x="770" y="178" id="pf139707611113939" referenceLink="//@navigationRule.7/@navigationCase.0/@toViewId|" path="/editRemoveFlights.xhtml"/>
+</pageflow:Pageflow>

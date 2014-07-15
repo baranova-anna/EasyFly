@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"> 
+
+<ui:composition template="WEB-INF/templates/BasicTemplateAnalyst.xhtml">
+	<ui:define name="content">
+	
+	<h:form id="no_rights" rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+
+		<h:form id="welcome-analyst" rendered="#{loginBean.isAuthorized(password)}">
+
+			<h:panelGrid columns="3">
+				<h:outputText value="#{msg['start_date']}"></h:outputText>
+				<p:calendar value="#{ordersBean.startDate}" pattern="yyyy-MM-dd"
+					id="popupCal" required="true"
+					requiredMessage="#{msg['req_start_date']}" />
+				<p:message for="popupCal" />
+				<h:outputText value="#{msg['end_date']}"></h:outputText>
+				<p:calendar value="#{ordersBean.endDate}" pattern="yyyy-MM-dd"
+					id="popupCal2" required="true"
+					requiredMessage="#{msg['req_end_date']}" />
+				<p:message for="popupCal2" />
+			</h:panelGrid>
+			<br />
+			<h:panelGrid columns="3">
+				<p:commandButton id="showReportByDate"
+					action="#{ordersBean.makeDailyReport}" value="#{msg['show_daily']}"
+					update="@all" />
+				<p:commandButton id="showReportByDestination"
+					action="#{ordersBean.makeReportByDestination}"
+					value="#{msg['show_destin']}" update="@all" />
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" immediate="true" />
+			</h:panelGrid>
+		</h:form>
+
+		<h:form id="report2" rendered="#{loginBean.isAuthorized(password)}">
+			<br />
+			<p:dataTable id="table" value="#{ordersBean.destinationreport}"
+				var="r2" widgetVar="table">
+				<p:column style="text-align:center;">
+				<f:facet name = "header" >
+						<h:outputText value="#{msg['destination']}"/>
+					</f:facet>
+					<h:outputText
+						value="#{citiesBean.getCityName(r2.destination_city_id)}" />
+				</p:column>
+				<p:column style="text-align:center;">
+				<f:facet name = "header" >
+						<h:outputText value="#{msg['total_tickets']}"/>
+					</f:facet>
+					<h:outputText value="#{r2.ticket_count}" />
+				</p:column>
+				<p:column style="text-align:center;">
+				<f:facet name = "header" >
+						<h:outputText value="#{msg['total_sum']}"/>
+					</f:facet>
+					<h:outputText value="#{r2.total_sum}" />
+				</p:column>
+			</p:dataTable>
+			<br />
+
+			<h:panelGrid id="charts" columns="2" style="margin: 0 auto;">
+
+				<p:panel header="#{msg['count_dest']}">
+
+					<p:pieChart id="pie1" value="#{chartBean.pieModelCount}"
+						legendPosition="w" style="width:400px; width:600px; height:300px"
+						widgetVar="pie1" />
+
+				</p:panel>
+
+				<p:panel header="#{msg['sum_dest']}">
+
+					<p:pieChart id="pie2" value="#{chartBean.pieModelSum}"
+						legendPosition="w" style="width:400px; width:600px; height:300px"
+						widgetVar="pie2" />
+
+				</p:panel>
+
+			</h:panelGrid>
+
+			<br />
+			<br />
+			<p:commandButton value="#{msg['print']}" type="button"
+				icon="ui-icon-print" onclick="exportChart()">
+				<p:printer target="output" />
+			</p:commandButton>
+			<br />
+			<h:commandLink>
+				<p:graphicImage value="resources/images/pdf.png" style="border:none;"/>
+				<p:dataExporter target="table" type="pdf" fileName="ReportByDestination" encoding="windows-1250" preProcessor="#{fileExportProcessor.preProcessPDF2}"/>
+			</h:commandLink>
+
+			<p:dialog widgetVar="dlg" showEffect="fade" modal="true"
+				header="Chart as an Image">
+				<p:outputPanel id="output" layout="block"
+					style="width:1000px;height:800px" rendered="true">
+					<p:dataTable id="table2" value="#{ordersBean.destinationreport}"
+						var="r2" widgetVar="table2">
+						<p:column headerText="#{msg['destination']}">
+							<h:outputText
+								value="#{citiesBean.getCityName(r2.destination_city_id)}" />
+						</p:column>
+						<p:column headerText="#{msg['total_tickets']}">
+							<h:outputText value="#{r2.ticket_count}" />
+						</p:column>
+						<p:column headerText="#{msg['total_sum']}">
+							<h:outputText value="#{r2.total_sum}" />
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:dialog>
+
+			<script>
+    		function exportChart() {		
+    			$('#report2\\:output').append(pie1.exportAsImage());
+    			$('#report2\\:output').append(pie2.exportAsImage());
+			}
+    		 </script>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>
+

@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplateAccount.xhtml">
+	<ui:define name="content">
+	
+	<h:form id="no_rights" rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+	
+	
+		<h:form id="account-panel" rendered="#{loginBean.isAuthorized(password)}">
+			<h:panelGrid columns="4">
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" />
+			</h:panelGrid>
+		</h:form>
+
+		#{ordersListBean.refreshList()}
+		<h:form id="edit" rendered="#{loginBean.isAuthorized(password)}">
+			<br />
+			<p:dataTable value="#{ordersListBean.orders}" var="o"
+				emptyMessage="#{msg['empty_orders']}"
+				filteredValue="#{ordersBean.filteredOrders}">
+				<p:column headerText="#{msg['first_name2']}">
+					<h:outputText value="#{o.first_name}" />
+				</p:column>
+				<p:column filterBy="last_name" headerText="#{msg['last_name2']}">
+					<h:outputText value="#{o.last_name}" />
+				</p:column>
+				<p:column headerText="#{msg['email2']}">
+					<h:outputText value="#{o.order_email}" />
+				</p:column>
+				<p:column headerText="#{msg['tickets']}">
+					<h:outputText value="#{o.ticket_amount}" />
+				</p:column>
+				<p:column headerText="#{msg['total_sum']}">
+					<h:outputText value="#{o.total_sum}" />
+				</p:column>
+				<p:column headerText="#{msg['date']}">
+					<h:outputText value="#{o.book_date}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{msg['action']}">
+					<p:commandButton value="#{msg['paid']}"
+						action="#{ordersBean.convertOrdertoSold(o)}" update="@all" />
+				</p:column>
+			</p:dataTable>
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

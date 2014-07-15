@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+
+		<h:form> 
+			<br />
+			<p:dataTable id="flights_list" value="#{flightsBean.userBasket}"
+				var="item">
+				<p:column headerText="#{msg['flight']}">
+					<h:outputText value="#{item.flight_number}" />
+				</p:column>
+				<p:column headerText="#{msg['from2']}">
+					<h:outputText
+						value="#{citiesBean.getCityName(item.departure_city_id)}" />
+				</p:column>
+				<p:column headerText="#{msg['to2']}">
+					<h:outputText
+						value="#{citiesBean.getCityName(item.arrival_city_id)}" />
+				</p:column>
+				<p:column headerText="#{msg['departure']}">
+					<h:outputText value="#{item.departure_date}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{msg['arrival']}">
+					<h:outputText value="#{item.arrival_date}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{msg['aircraft']}">
+					<h:outputText value="#{item.aircraft_model}" />
+				</p:column>
+				<p:column headerText="#{msg['price']}">
+					<h:outputText value="#{item.ticket_price}" />
+				</p:column>
+				<p:column headerText="#{msg['tickets']}">
+					<h:outputText value="#{item.qty}" />
+				</p:column>
+
+				<f:facet name="footer">  
+            		#{msg['total']} #{flightsBean.total_sum}$  
+        		</f:facet>
+			</p:dataTable>
+		</h:form>
+
+
+		<h:form id="user-data">
+			<h3>
+				<h:outputText value="#{msg['enter_user_data']}"
+					styleClass="Three-Dee2" />
+			</h3>
+			<h:panelGrid columns="3">
+				<h:outputText value="#{msg['first_name']}"></h:outputText>
+				<p:inputText value="#{ordersBean.first_name}" id="first_name"
+					required="true" requiredMessage="#{msg['req_first_name']}"
+					validatorMessage="#{msg['val_first_name']}">
+					<f:validateLength minimum="2" maximum="20" />
+				</p:inputText>
+				<p:message for="first_name" />
+				<h:outputText value="#{msg['last_name']}"></h:outputText>
+				<p:inputText value="#{ordersBean.last_name}" id="last_name"
+					required="true" requiredMessage="#{msg['req_last_name']}"
+					validatorMessage="#{msg['val_last_name']}">
+					<f:validateLength minimum="2" maximum="20" />
+				</p:inputText>
+				<p:message for="last_name" />
+				<h:outputText value="#{msg['email']}"></h:outputText>
+				<p:inputText label="email" required="true" size="40"
+					value="#{ordersBean.order_email}" id="email"
+					requiredMessage="#{msg['req_email']}"
+					validatorMessage="#{msg['val_email']}">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<p:message for="email" />
+				<p:watermark for="email" value="Email Address *" />
+
+			</h:panelGrid>
+			<p:commandButton value="#{msg['submit_order']}" update="@all"
+				action="#{ordersBean.addOrder}" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

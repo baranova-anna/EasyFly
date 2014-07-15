@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplateSecurity.xhtml">
+	<ui:define name="content">
+	
+	<h:form id="no_rights" rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+	
+		<h:form name="secur-panel" rendered="#{loginBean.isAuthorized(password)}">
+			<h:panelGrid columns="3">
+				<p:commandButton id="addUser" action="#{usersBean.addUserForm}"
+					value="#{msg['add_user']}" update="@all" />
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" />
+			</h:panelGrid>
+		</h:form>
+
+		#{positionsBean.refreshList()}
+		<h:form id="add-user" rendered="#{loginBean.isAuthorized(password)}">
+			<br />
+			<h:panelGrid columns="4">
+				<h:outputText value="#{msg['login2']}"></h:outputText>
+				<h:outputText value="#{msg['password']}"></h:outputText>
+				<h:outputText value="#{msg['email']}"></h:outputText>
+				<h:outputText value="#{msg['position2']}"></h:outputText>
+				<p:inputText value="#{usersBean.user_login}" id="user_login"
+					required="true" requiredMessage="#{msg['req_user_login']}" />
+				<p:inputText value="#{usersBean.user_password}" id="user_password"
+					required="true" requiredMessage="#{msg['req_user_pass']}" />
+				<p:inputText value="#{usersBean.user_email}" id="user_email"
+					size="25" required="true"
+					requiredMessage="#{msg['req_user_email']}"
+					validatorMessage="#{msg['val_email']}">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<p:selectOneMenu value="#{usersBean.user_position_id}"
+					id="user_position_id" required="true"
+					requiredMessage="#{msg['req_user_pos']}">
+					<f:selectItem itemLabel="#{msg['select_pos']}" itemValue="" />
+					<f:selectItems value="#{positionsBean.positions}" var="p"
+						itemValue="#{p.position_id}" itemLabel="#{p.position_name}" />
+				</p:selectOneMenu>
+				<p:message for="user_login" />
+				<p:message for="user_password" />
+				<p:message for="user_email" />
+				<p:message for="user_position_id" />
+			</h:panelGrid>
+			<br />
+			<h:panelGrid columns="3">
+				<p:commandButton value="#{msg['submit']}"
+					action="#{usersBean.addUser}" update="@all" />
+				<h:outputText value=" "></h:outputText>
+				<p:commandButton value="#{msg['cancel']}"
+					action="#{usersBean.editRemoveUser}" immediate="true" update="@all" /> 
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

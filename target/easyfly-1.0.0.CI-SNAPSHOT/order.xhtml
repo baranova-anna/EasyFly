@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"> 
+
+
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+
+		<h:form>
+			<br />
+			<p:dataTable id="flights_list" value="#{flightsBean.userBasket}"
+				var="item">
+				<p:column headerText="#{msg['flight']}">
+					<h:outputText value="#{item.flight_number}" />
+				</p:column>
+				<p:column headerText="#{msg['from2']}">
+					<h:outputText
+						value="#{citiesBean.getCityName(item.departure_city_id)}" />
+				</p:column>
+				<p:column headerText="#{msg['to2']}">
+					<h:outputText
+						value="#{citiesBean.getCityName(item.arrival_city_id)}" />
+				</p:column>
+				<p:column headerText="#{msg['departure']}">
+					<h:outputText value="#{item.departure_date}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{msg['arrival']}">
+					<h:outputText value="#{item.arrival_date}">
+						<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{msg['aircraft']}">
+					<h:outputText value="#{item.aircraft_model}" />
+				</p:column>
+				<p:column headerText="#{msg['price']}">
+					<h:outputText value="#{item.ticket_price}" />
+				</p:column>
+				<p:column headerText="#{msg['tickets']}">
+					<h:outputText value="#{item.qty}" />
+				</p:column>
+				<p:column headerText="#{msg['action']}">
+					<p:commandButton value="#{msg['delete']}"
+						action="#{flightsBean.deleteFlightFromBasket(item)}" update="@all" />
+				</p:column>
+
+				<f:facet name="footer">  
+            		#{msg['total']} #{flightsBean.total_sum}$  
+        		</f:facet>
+			</p:dataTable>
+		</h:form>
+
+		<h:form id="choice">
+			<h3>
+				<h:outputText value="#{msg['ask_to_continue']}"
+					styleClass="Three-Dee2" />
+			</h3>
+			<h:panelGrid columns="2">
+				<p:commandButton value="#{msg['continue']}"
+					action="#{flightsBean.continueSearchingFlights}" update="@all" />
+				<p:commandButton value="#{msg['checkout']}"
+					action="#{flightsBean.userCheckout}" update="@all" />
+			</h:panelGrid>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

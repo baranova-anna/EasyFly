@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplateAnalyst.xhtml">
+	<ui:define name="content">
+
+		<h:form id="no_rights"
+			rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+
+		<h:form id="welcome-analyst"
+			rendered="#{loginBean.isAuthorized(password)}">
+
+			<h:panelGrid columns="3">
+				<h:outputText value="#{msg['start_date']}"></h:outputText>
+				<p:calendar value="#{ordersBean.startDate}" pattern="yyyy-MM-dd"
+					id="popupCal" required="true"
+					requiredMessage="#{msg['req_start_date']}" />
+				<p:message for="popupCal" />
+				<h:outputText value="#{msg['end_date']}"></h:outputText>
+				<p:calendar value="#{ordersBean.endDate}" pattern="yyyy-MM-dd"
+					id="popupCal2" required="true"
+					requiredMessage="#{msg['req_end_date']}" />
+				<p:message for="popupCal2" />
+			</h:panelGrid>
+			<br />
+			<h:panelGrid columns="3">
+				<p:commandButton id="showReportByDate"
+					action="#{ordersBean.makeDailyReport}" value="#{msg['show_daily']}"
+					update="@all" />
+				<p:commandButton id="showReportByDestination"
+					action="#{ordersBean.makeReportByDestination}"
+					value="#{msg['show_destin']}" update="@all" />
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" immediate="true" />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

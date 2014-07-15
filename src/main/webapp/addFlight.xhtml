@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplateAdmin.xhtml">
+	<ui:define name="content">
+
+		<h:form id="no_rights"
+			rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+		<h:form id="admin-panel"
+			rendered="#{loginBean.isAuthorized(password)}">
+			<h:panelGrid columns="4">
+				<p:commandButton id="addFlight"
+					action="#{flightsBean.addFlightForm}" value="#{msg['add_flight']}"
+					update="@all" />
+				<p:commandButton id="convert3dayTickets"
+					action="#{ordersBean.convertTicketstoFree}"
+					value="#{msg['convert_tickets']}" update="@all" />
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" />
+			</h:panelGrid>
+		</h:form>
+
+		#{citiesBean.refreshList()}
+		#{aircraftsBean.refreshList()}
+		<h:form id="add-flight" rendered="#{loginBean.isAuthorized(password)}">
+			<br />
+			<h:panelGrid columns="3">
+				<h:outputText value="#{msg['flight2']}"></h:outputText>
+				<p:inputText value="#{flightsBean.flight_number}" id="flight_number"
+					required="true" requiredMessage="#{msg['req_flight_number']}" />
+				<p:message for="flight_number" />
+				<h:outputText value="#{msg['from']}"></h:outputText>
+				<p:selectOneMenu id="departure_city"
+					value="#{flightsBean.departure_city_id}" required="true"
+					requiredMessage="#{msg['reqcity_dep']}">
+					<f:selectItem itemLabel="#{msg['select']}" itemValue="" />
+					<f:selectItems value="#{citiesBean.allCities}" var="c"
+						itemValue="#{c.city_id}" itemLabel="#{c.city_name}" />
+				</p:selectOneMenu>
+				<p:message for="departure_city" />
+				<h:outputText value="#{msg['to']}"></h:outputText>
+				<p:selectOneMenu id="arrival_city"
+					value="#{flightsBean.arrival_city_id}" required="true"
+					requiredMessage="#{msg['reqcity_ar']}">
+					<f:selectItem itemLabel="#{msg['select']}" itemValue="" />
+					<f:selectItems value="#{citiesBean.allCities}" var="c"
+						itemValue="#{c.city_id}" itemLabel="#{c.city_name}" />
+				</p:selectOneMenu>
+				<p:message for="arrival_city" />
+				<h:outputText value="#{msg['departure2']} "></h:outputText>
+
+				<p:calendar value="#{flightsBean.departure_date}"
+					pattern="yyyy-MM-dd HH:mm" id="popupCal" mindate="#{flightsBean.minSearchDate}"
+					required="true"
+					requiredMessage="#{msg['reqdate']}" />
+
+				<p:message for="popupCal" />
+				<h:outputText value="#{msg['arrival2']} "></h:outputText>
+
+				<p:calendar value="#{flightsBean.arrival_date}"
+					pattern="yyyy-MM-dd HH:mm" id="popupCal2" mindate="#{flightsBean.minSearchDate}"
+					required="true"
+					requiredMessage="#{msg['reqdate']}" />
+
+				<p:message for="popupCal2" />
+				<h:outputText value="#{msg['aircraft2']} "></h:outputText>
+				<p:selectOneMenu id="aircraft" value="#{flightsBean.aircraft_id}"
+					required="true" requiredMessage="#{msg['req_aircraft']}">
+					<f:selectItem itemLabel="#{msg['select_aircraft']}" itemValue="" />
+					<f:selectItems value="#{aircraftsBean.aircrafts}" var="a"
+						itemValue="#{a.aircraft_id}" itemLabel="#{a.aircraft_info}" />
+				</p:selectOneMenu>
+				<p:message for="aircraft" />
+				<h:outputText value="#{msg['tickets2']} "></h:outputText>
+				<p:inputText value="#{flightsBean.ticket_amount}" id="ticket_amount"
+					required="true" requiredMessage="#{msg['req_tickets']}"
+					validatorMessage="#{msg['req_tickets']}">
+					<f:convertNumber />
+					<f:validateLongRange minimum="1" maximum="853" />
+				</p:inputText>
+				<p:message for="ticket_amount" />
+				<h:outputText value="#{msg['price2']} "></h:outputText>
+				<p:inputText value="#{flightsBean.ticket_price}" id="ticket_price"
+					required="true" requiredMessage="#{msg['req_price']}"
+					validatorMessage="#{msg['val_price']}">
+					<f:convertNumber minFractionDigits="2" />
+					<f:validateDoubleRange minimum="0.01" maximum="30000.00" />
+				</p:inputText>
+				<p:message for="ticket_price" />
+			</h:panelGrid>
+			<h:panelGrid columns="3">
+				<p:commandButton value="#{msg['submit']}" update="@all"
+					action="#{flightsBean.addFlight}" />
+				<h:outputText value=" "></h:outputText>
+				<p:commandButton value="#{msg['cancel']}"
+					action="#{flightsBean.editRemoveFlights}" immediate="true"
+					update="@all" />
+			</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

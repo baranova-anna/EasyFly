@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core">
+<head>
+<h:outputStylesheet library="css" name="style.css" />
+</head>
+
+<body>
+	<ui:composition>
+
+		<h:form>
+			<h:panelGrid columns="2">
+		#{msg['language']}: 
+		<h:selectOneMenu value="#{language.localeCode}" onchange="submit()"
+					valueChangeListener="#{language.countryLocaleCodeChanged}">
+					<f:selectItems value="#{language.countriesInMap}" />
+				</h:selectOneMenu>
+			</h:panelGrid>
+			<h:panelGrid columns="3">
+				<h:commandLink action="#{usersBean.startUserPage}">
+					<h:graphicImage value="resources/images/logo5.png"
+						style="border:none" />
+				</h:commandLink>
+				<h:outputText value=" "></h:outputText>
+				<h:graphicImage value="resources/images/losung.png" />
+			</h:panelGrid>
+			<h:panelGrid style="width:100%; text-align: center">
+				<h:outputText value="#{msg['flights_administration']}"
+					styleClass="Three-Dee2"></h:outputText>
+			</h:panelGrid>
+
+		</h:form>
+	</ui:composition>
+</body>
+</html>

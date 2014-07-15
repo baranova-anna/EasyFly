@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content"> 
+	
+	#{citiesBean.refreshList()}
+	#{flightsBean.getTop10Flights()}
+		<h:form id="welcome-user" styleClass="yourFormClass">
+			<h:panelGrid columns="2" style="width:100%; text-align: right;">
+				<p:panel style="text-align:left; border:none;">
+					<br />
+					<h:outputText style="padding-left: 35px;" styleClass="Three-Dee"
+						value="#{msg['enter']}"></h:outputText>
+					<br />
+					<br />
+					<h:panelGrid columns="5" style="padding-left: 25px;">
+						<h:outputText value=" "></h:outputText>
+						<h:outputText styleClass="Three-Dee" value="#{msg['from']}"></h:outputText>
+						<h:outputText value=" "></h:outputText>
+						<h:outputText value=" "></h:outputText>
+						<h:outputText styleClass="Three-Dee" value="#{msg['to']}"></h:outputText>
+
+						<h:outputText value=" "></h:outputText>
+						<p:selectOneMenu id="departure_city_id"
+							value="#{flightsBean.search_departure_city_id}"
+							style="width:220px;" required="true"
+							requiredMessage="#{msg['reqcity_dep']}">
+							<f:selectItem itemLabel="#{msg['select']}" itemValue="" />
+							<f:selectItems value="#{citiesBean.allCities}" var="c"
+								itemValue="#{c.city_id}" itemLabel="#{c.city_name}" />
+						</p:selectOneMenu>
+						<h:outputText value=" "></h:outputText>
+						<h:outputText value=" "></h:outputText>
+						<p:selectOneMenu id="arrival_city_id"
+							value="#{flightsBean.search_arrival_city_id}"
+							style="width:220px;" required="true"
+							requiredMessage="#{msg['reqcity_ar']}">
+							<f:selectItem itemLabel="#{msg['select']}" itemValue="" />
+							<f:selectItems value="#{citiesBean.allCities}" var="c"
+								itemValue="#{c.city_id}" itemLabel="#{c.city_name}" />
+						</p:selectOneMenu>
+
+						<h:outputText value=" "></h:outputText>
+						<p:message for="departure_city_id" />
+						<h:outputText value=" "></h:outputText>
+						<h:outputText value=" "></h:outputText>
+						<p:message for="arrival_city_id" />
+
+						<h:outputText value=" "></h:outputText>
+						<h:outputText styleClass="Three-Dee" value="#{msg['depart_date']}"></h:outputText>
+						<h:outputText value=" "></h:outputText>
+						<h:outputText value=" "></h:outputText>
+						<h:outputText value=" "></h:outputText>
+
+						<h:outputText value=" "></h:outputText>
+						<p:calendar value="#{flightsBean.search_depart_date_start}"
+							locale="#{language.localedef}"
+							mindate="#{flightsBean.minSearchDate}" pattern="yyyy-MM-dd"
+							id="popupCal" size="16" required="true"
+							requiredMessage="#{msg['reqdate']}" showOn="button" />
+						<h:outputText value="#{msg['till']}" styleClass="Three-Dee"></h:outputText>
+						<h:outputText value=" "></h:outputText>
+						<p:calendar value="#{flightsBean.search_depart_date_end}"
+							mindate="#{flightsBean.minSearchDate}" pattern="yyyy-MM-dd"
+							id="popupCal2" size="16" required="true"
+							requiredMessage="#{msg['reqdate']}" showOn="button" />
+
+
+						<h:outputText value=" "></h:outputText>
+						<p:message for="popupCal" />
+						<h:outputText value=" "></h:outputText>
+						<h:outputText value=" "></h:outputText>
+						<p:message for="popupCal2" />
+
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" style="width:25%; padding-left: 25px;">
+						<h:outputText styleClass="Three-Dee" value="#{msg['adults']}"></h:outputText>
+						<h:panelGrid columns="9">
+							<p:commandLink action="#{flightsBean.decrementSearchQty}"
+								update="txt_count" immediate="true">
+								<h:graphicImage value="resources/images/minus.png"
+									style="border:none;" />
+							</p:commandLink>
+							<h:outputText value=" " />
+							<h:outputText id="txt_count" value="#{flightsBean.search_qty}"
+								styleClass="Three-Dee5" />
+							<h:graphicImage value="resources/images/person.png"
+								style="border:none" />
+							<h:outputText value=" " />
+							<p:commandLink action="#{flightsBean.incrementSearchQty}"
+								update="txt_count" immediate="true">
+								<h:graphicImage value="resources/images/plus.png"
+									style="border:none;" />
+							</p:commandLink>
+
+						</h:panelGrid>
+						<br />
+						<br />
+						<p:commandButton value="#{msg['search']}" style="border:none;"
+							action="#{flightsBean.searchFlightsForUser}"
+							styleClass="myButton" update="@all" />
+					</h:panelGrid>
+					<br />
+					<br />
+				</p:panel>
+				<p:panelGrid columns="1" style="width:100%; text-align:right;">
+
+					<p:imageSwitch effect="zoom">
+						<ui:repeat value="#{imageSwitchBean.images}" var="image">
+							<p:graphicImage value="resources/images/citygallery/#{image}" />
+						</ui:repeat>
+					</p:imageSwitch>
+
+				</p:panelGrid>
+			</h:panelGrid>
+			<h:outputText styleClass="Three-Dee2" style="padding-left: 25px;"
+				value="#{msg['no_flights']}"></h:outputText>
+			<br />
+			<br />
+		</h:form>
+
+		<h:form id="top5">
+			<p:panel header="#{msg['top10']}" style="text-align:center">
+
+				<p:dataGrid var="top" value="#{flightsListBean.top10Flights}"
+					columns="2" rows="10">
+
+					<h:panelGrid columns="9" style="width:100%">
+						<h:graphicImage value="resources/images/star.png"
+							style="border:none" />
+						<h:outputText value=" " />
+						<h:outputText
+							value="#{citiesBean.getCityName(top.departure_city_id)}" />
+						<h:graphicImage value="resources/images/plane.png"
+							style="border:none" />
+						<h:outputText
+							value="#{citiesBean.getCityName(top.arrival_city_id)}" />
+						<h:outputText value=" " />
+						<h:outputText value="#{top.ticket_price}$" styleClass="Three-Dee3" />
+						<h:outputText value=" " />
+						<p:commandButton value="#{msg['add']}"
+							action="#{flightsBean.addBestOffer(top)}" update="@all" />
+					</h:panelGrid>
+				</p:dataGrid>
+			</p:panel>
+		</h:form>
+
+	</ui:define>
+</ui:composition>
+</html>

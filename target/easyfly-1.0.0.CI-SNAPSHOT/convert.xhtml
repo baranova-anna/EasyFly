@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+	
+	<h:form id="no_rights" rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+	
+		<h:form id="admin-panel" rendered="#{loginBean.isAuthorized(password)}">
+			<h:panelGrid columns="4">
+				<p:commandButton id="addFlight"
+					action="#{flightsBean.addFlightForm}" value="#{msg['add_flight']}"
+					update="@all" />
+				<p:commandButton id="edFlight"
+					action="#{flightsBean.editRemoveFlights}"
+					value="#{msg['Ed_flight']}" />
+				<p:commandButton id="convert3dayTickets"
+					action="#{ordersBean.convertTicketstoFree}"
+					value="#{msg['convert_tickets']}" update="@all" />
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" />
+			</h:panelGrid>
+		</h:form>
+
+		<h:form id="convert" rendered="#{loginBean.isAuthorized(password)}">
+			<br />
+			<h3>
+				<h:outputText value="#{msg['conv_tick_success']}"
+					styleClass="Three-Dee2" />
+			</h3>
+			<h:outputText value="#{msg['deleted_rec']}" styleClass="Three-Dee2" />
+			<h:outputText value="#{ordersBean.deleted_count}"
+				styleClass="Three-Dee2" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

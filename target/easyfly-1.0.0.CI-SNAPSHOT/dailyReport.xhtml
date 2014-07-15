@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplateAnalyst.xhtml">
+	<ui:define name="content">
+	
+		<h:form id="no_rights" rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+	
+	
+		<h:form id="welcome-analyst" rendered="#{loginBean.isAuthorized(password)}">
+
+			<h:panelGrid columns="3">
+				<h:outputText value="#{msg['start_date']}"></h:outputText>
+				<p:calendar value="#{ordersBean.startDate}" pattern="yyyy-MM-dd"
+					id="popupCal" required="true"
+					requiredMessage="#{msg['req_start_date']}" />
+				<p:message for="popupCal" />
+				<h:outputText value="#{msg['end_date']}"></h:outputText>
+				<p:calendar value="#{ordersBean.endDate}" pattern="yyyy-MM-dd"
+					id="popupCal2" required="true"
+					requiredMessage="#{msg['req_end_date']}" />
+				<p:message for="popupCal2" />
+			</h:panelGrid>
+			<br />
+			<h:panelGrid columns="3">
+				<p:commandButton id="showReportByDate"
+					action="#{ordersBean.makeDailyReport}" value="#{msg['show_daily']}"
+					update="@all" />
+				<p:commandButton id="showReportByDestination"
+					action="#{ordersBean.makeReportByDestination}"
+					value="#{msg['show_destin']}" update="@all" />
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" immediate="true" />
+			</h:panelGrid>
+		</h:form>
+		
+		<h:form id="report1" rendered="#{loginBean.isAuthorized(password)}">
+			<br />
+			<p:dataTable id="table1" value="#{ordersBean.dailyreport}" var="r1">
+				<p:column style="text-align:center;">
+					<f:facet name = "header" >
+						<h:outputText value="#{msg['date']}" />
+					</f:facet>
+					<h:outputText value="#{r1.book_date}">
+						<f:convertDateTime pattern="yyyy-MM-dd" />
+					</h:outputText>
+				</p:column>
+				<p:column style="text-align:center;">
+				<f:facet name = "header" >
+						<h:outputText value="#{msg['total_tickets']}" />
+					</f:facet>
+					<h:outputText value="#{r1.ticket_count}" />
+				</p:column>
+				<p:column style="text-align:center;">
+					<f:facet name = "header" >
+						<h:outputText value="#{msg['total_sum']}"/>
+					</f:facet>
+					<h:outputText value="#{r1.total_sum}" />
+				</p:column>
+			</p:dataTable>
+			
+			<br />
+
+			<h:panelGrid columns="2" style="margin: 0 auto;">
+
+				<p:panel header="#{msg['count_date']}">
+					<p:lineChart id="category1" value="#{chartBean.categoryModelCount}"
+						legendPosition="e" minY="0" maxY="20"
+						style="height:300px; width:550px; margin-top:20px" animate="true"
+						widgetVar="chart1" />
+				</p:panel>
+
+				<p:panel header="#{msg['sum_date']}">
+					<p:lineChart id="category2" value="#{chartBean.categoryModelSum}"
+						legendPosition="e" minY="0" maxY="50000"
+						style="height:300px; width:550px; margin-top:20px" animate="true"
+						widgetVar="chart2" />
+				</p:panel>
+				</h:panelGrid>
+			<br /><br />
+			<p:commandButton value="#{msg['print']}" type="button"
+				icon="ui-icon-print" onclick="exportToPdf()">
+				<p:printer target="output" />
+			</p:commandButton>
+			
+			<br/>
+			
+			<h:commandLink>
+				<p:graphicImage value="resources/images/pdf.png" style="border:none;"/>
+				<p:dataExporter target="table1" type="pdf" fileName="ReportByDate" encoding="windows-1250" preProcessor="#{fileExportProcessor.preProcessPDF}"/>
+			</h:commandLink>
+
+
+			<p:dialog widgetVar="dlg" showEffect="fade" modal="true">
+				<p:outputPanel id="output" layout="block"
+					style="width:1000px;height:800px" rendered="true">
+					<p:dataTable id="table2" value="#{ordersBean.dailyreport}" var="r1">
+						<p:column headerText="#{msg['date']}">
+							<h:outputText value="#{r1.book_date}">
+								<f:convertDateTime pattern="yyyy-MM-dd" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="#{msg['total_tickets']}">
+							<h:outputText value="#{r1.ticket_count}" />
+						</p:column>
+						<p:column headerText="#{msg['total_sum']}">
+							<h:outputText value="#{r1.total_sum}" />
+						</p:column>
+					</p:dataTable>
+				</p:outputPanel>
+			</p:dialog>
+
+			<script>
+				function exportToPdf(){
+					$('#report1\\:output').append(chart1.exportAsImage());
+    				$('#report1\\:output').append(chart2.exportAsImage());
+				}	
+    		 </script>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

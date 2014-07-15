@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="WEB-INF/templates/BasicTemplate.xhtml">
+	<ui:define name="content">
+		<h:form id="user-panel">
+			<h:panelGrid columns="9">
+				<h:outputText value="#{msg['from']}"></h:outputText>
+				<h:outputText value=" "></h:outputText>
+				<h:outputText value="#{msg['to']}"></h:outputText>
+				<h:outputText value=" "></h:outputText>
+				<h:outputText value="#{msg['depart_date']}"></h:outputText>
+				<h:outputText value=" "></h:outputText>
+				<h:outputText value=" "></h:outputText>
+				<h:outputText value=" "></h:outputText>
+				<h:outputText value="#{msg['adults']}"></h:outputText>
+
+				<p:selectOneMenu value="#{flightsBean.search_departure_city_id}">
+					<f:selectItems value="#{citiesBean.allCities}" var="c"
+						itemValue="#{c.city_id}" itemLabel="#{c.city_name}" />
+				</p:selectOneMenu>
+				<h:outputText value=" "></h:outputText>
+				<p:selectOneMenu value="#{flightsBean.search_arrival_city_id}">
+					<f:selectItems value="#{citiesBean.allCities}" var="c"
+						itemValue="#{c.city_id}" itemLabel="#{c.city_name}" />
+				</p:selectOneMenu>
+				<h:outputText value=" "></h:outputText>
+				<p:calendar value="#{flightsBean.search_depart_date_start}"
+				mindate="#{flightsBean.minSearchDate}" 
+					pattern="yyyy-MM-dd" id="popupCal" size="16" />
+				<h:outputText value=" "></h:outputText>
+				<p:calendar value="#{flightsBean.search_depart_date_end}"
+				mindate="#{flightsBean.minSearchDate}"
+					pattern="yyyy-MM-dd" id="popupCal2" size="16" />
+				<h:outputText value=" "></h:outputText>
+				<p:spinner id="minmax" value="#{flightsBean.search_qty}" min="1"
+					max="100" size="2" />
+			</h:panelGrid>
+
+			<h:commandButton value="#{msg['search']}"
+				action="#{flightsBean.searchFlightsForUser}" styleClass="myButton"
+				style="border:none">
+			</h:commandButton>
+		</h:form>
+
+		<h:form id="search-result">
+			<br />
+			<p:dataGrid id="flights_list"
+				value="#{flightsListBean.searchFlightsForUser}" var="item"
+				columns="1" styleClass="ui-datagrid-content">
+				<p:panel header="#{item.flight_number}" style="text-align:left">
+					<p:panelGrid style="width:100%" styleClass="ui-panelgrid">
+						<p:row>
+							<p:column rowspan="4">
+								<h:graphicImage library="images" name="#{item.company}.jpg" />
+							</p:column>
+							<p:column>
+								<h:outputText value="#{item.departure_date}" styleClass="foo">
+									<f:convertDateTime pattern="HH:mm" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<h:outputText
+									value="#{citiesBean.getCityName(item.departure_city_id)}" />
+							</p:column>
+							<p:column rowspan="2">
+								<h:outputText value="#{item.flight_number}" />
+							</p:column>
+							<p:column rowspan="2">
+								<h:outputText value="#{item.ticket_price}" styleClass="foo2" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="#{item.departure_date}">
+									<f:convertDateTime pattern="yyyy-MM-dd" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{item.fullCityName1}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="#{item.arrival_date}" styleClass="foo">
+									<f:convertDateTime pattern="HH:mm" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<h:outputText
+									value="#{citiesBean.getCityName(item.arrival_city_id)}" />
+							</p:column>
+							<p:column rowspan="2">
+								<h:outputText value="#{item.aircraft_model}" />
+							</p:column>
+							<p:column rowspan="2">
+								<p:commandButton value="#{msg['add_basket']}"
+									action="#{flightsBean.addFlightToBasketUser(item)}"
+									update="@all" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<h:outputText value="#{item.arrival_date}">
+									<f:convertDateTime pattern="yyyy-MM-dd" />
+								</h:outputText>
+							</p:column>
+							<p:column>
+								<h:outputText value="#{item.fullCityName2}" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</p:panel>
+			</p:dataGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

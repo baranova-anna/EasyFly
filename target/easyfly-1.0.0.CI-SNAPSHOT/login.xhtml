@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<ui:composition template="WEB-INF/templates/BasicTemplateWB.xhtml">
+	<ui:define name="content">
+		<h3>
+			<h:outputText value="#{msg['auth_page']}" styleClass="Three-Dee2" />
+		</h3>
+		<h:form id="login-form">
+			<p:messages id="messages" autoUpdate="true" closable="true" />
+			<h:panelGrid columns="2">
+				<h:outputText value="#{msg['username']}" />
+				<p:inputText value="#{loginBean.login_enter}" id="name"
+					required="true" requiredMessage="#{msg['req_login']}">
+				</p:inputText>
+				<h:outputText value="#{msg['password']}" />
+				<p:password value="#{loginBean.password_enter}" id="password"
+					required="true" requiredMessage="#{msg['req_pass']}" />
+				<p:commandButton id="login" value="#{msg['login']}"
+					action="#{loginBean.authorize}" update="@all" />
+				<br />
+				<br />
+			</h:panelGrid>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

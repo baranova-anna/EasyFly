@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<p:document xmlns:p="http://jboss.com/products/seam/pdf"
+xmlns:ui="http://java.sun.com/jsf/facelets" 
+xmlns:f="http://java.sun.com/jsf/core" 
+xmlns:s="http://jboss.com/products/seam/taglib" 
+xmlns:h="http://java.sun.com/jsf/html" 
+type="PDF" pageSize="letter" title="Letter" 
+margins="15.0 40.0 20.0 10.0">                                                      
+
+  The document goes here.    
+  
+  <p:table columns="3" headerRows="1">
+
+  <p:cell>name</p:cell>
+
+  <p:cell>owner</p:cell>
+
+  <p:cell>size</p:cell>
+
+  <ui:repeat value="1111" var="doc">
+
+    <p:cell>2222</p:cell>
+
+    <p:cell>3333</p:cell>
+
+    <p:cell>4444</p:cell>
+
+  </ui:repeat>
+
+</p:table>                                                                                         
+
+</p:document> 
+<h:form>
+
+<h:commandButton title="Export" action="#{fileExportProcessor.createPDF2}" value="Export"/>
+
+</h:form>
+
+</html>

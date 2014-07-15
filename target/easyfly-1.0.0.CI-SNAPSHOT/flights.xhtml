@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"> 
+
+<ui:composition template="WEB-INF/templates/BasicTemplateAdmin.xhtml">
+	<ui:define name="content">
+
+<h:form id="no_rights" rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+
+		<h:form id="admin-panel" rendered="#{loginBean.isAuthorized(password)}">
+			<h:panelGrid columns="4">
+				<p:commandButton id="addFlight"
+					action="#{flightsBean.addFlightForm}" value="#{msg['add_flight']}"
+					update="@all" />
+				<p:commandButton id="convert3dayTickets"
+					action="#{ordersBean.convertTicketstoFree}"
+					value="#{msg['convert_tickets']}" update="@all" />
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" />
+			</h:panelGrid>
+		</h:form>
+
+		#{flightsListBean.refreshList()}
+		#{citiesBean.refreshList()}
+		#{aircraftsBean.refreshList()}
+		<h:form id="editremove" rendered="#{loginBean.isAuthorized(password)}">
+
+			<br />
+			<p:dataTable id="remove_list" value="#{flightsListBean.flights}"
+				var="item" paginator="true" rows="10"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="5,10,15,20" emptyMessage="#{msg['empty_list']}"
+				filteredValue="#{flightsBean.filteredFlights}" editable="true"
+				editMode="cell">
+
+				<p:ajax event="cellEdit"
+					actionListener="#{flightsBean.updateFlight(item)}"
+					listener="#{flightsBean.onCellEdit}" update="@all" /> 
+
+				<p:column sortBy="flight_number" filterBy="flight_number"
+					headerText="#{msg['flight']}" footerText="#{msg['flight']}"
+					filterMatchMode="contains">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.flight_number}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.flight_number}" size="7"
+								required="true" />
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column sortBy="departure_city_id" filterBy="city1.city_name"
+					headerText="#{msg['from2']}" footerText="#{msg['from2']}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText
+								value="#{citiesBean.getCityName(item.departure_city_id)}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{item.departure_city_id}">
+								<f:selectItems value="#{citiesBean.allCities}" var="c"
+									itemValue="#{c.city_id}" itemLabel="#{c.city_name}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column sortBy="arrival_city_id" filterBy="city2.city_name"
+					headerText="#{msg['to2']}" footerText="#{msg['to2']}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText
+								value="#{citiesBean.getCityName(item.arrival_city_id)}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{item.arrival_city_id}">
+								<f:selectItems value="#{citiesBean.allCities}" var="c"
+									itemValue="#{c.city_id}" itemLabel="#{c.city_name}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column sortBy="departure_date" headerText="#{msg['departure']}"
+					filterBy="dateForFilter" footerText="#{msg['departure']}"
+					filterMatchMode="contains">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.departure_date}">
+								<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText id="dep_date" value="#{item.departure_date}"
+								size="19" required="true" requiredMessage="#{msg['reqdate']}">
+								<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+							</p:inputText>
+							<p:message for="dep_date" />
+						</f:facet>
+					</p:cellEditor>
+					<p:message for="dep_date" />
+				</p:column>
+				<p:message for="dep_date" />
+				<p:column headerText="#{msg['arrival']}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.arrival_date}">
+								<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.arrival_date}" size="19"
+								required="true">
+								<f:convertDateTime pattern="yyyy-MM-dd HH:mm" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{msg['aircraft']}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText
+								value="#{aircraftsBean.getAircraftName(item.aircraft_id)}" />
+						</f:facet>
+						<f:facet name="input">
+							<h:selectOneMenu value="#{item.aircraft_id}">
+								<f:selectItems value="#{aircraftsBean.aircrafts}" var="a"
+									itemValue="#{a.aircraft_id}" itemLabel="#{a.aircraft_info}" />
+							</h:selectOneMenu>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column headerText="#{msg['tickets']}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.ticket_amount}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.ticket_amount}" size="4"
+								required="true">
+								<f:convertNumber />
+								<f:validateLongRange minimum="1" maximum="853" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+				<p:column sortBy="ticket_price" headerText="#{msg['price']}">
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{item.ticket_price}" />
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{item.ticket_price}" size="5">
+								<f:convertNumber minFractionDigits="2" />
+								<f:validateDoubleRange minimum="0.01" maximum="30000.00" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">#{msg['action']}</f:facet>
+
+					<p:commandButton value="#{msg['save']}"
+						action="#{flightsBean.updateFlight(item)}" update="@all" />
+
+					<p:commandButton value="#{msg['remove']}"
+						actionListener="#{flightsBean.deleteFlight(item)}"
+						rendered="#{flightsBean.isRemoved(item)}" update="@all">
+						<p:confirm header="#{msg['confirmation']}"
+							message="#{msg['ifDelete']}" icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade"
+						hideEffect="explode" style="align:center">
+						<p:commandButton value="#{msg['yes']}" type="button"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check">
+						</p:commandButton>
+						<p:commandButton value="#{msg['no']}" type="button"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+				</p:column>
+			</p:dataTable>
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

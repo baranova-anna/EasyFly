@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/templates/BasicTemplateSecurity.xhtml">
+	<ui:define name="content">
+
+		<h:form id="no_rights"
+			rendered="#{not loginBean.isAuthorized(password)}">
+			<h3>
+				<h:outputText value="#{msg['no_rights']}" />
+			</h3>
+		</h:form>
+
+		<h:form id="form" rendered="#{loginBean.isAuthorized(password)}">
+			<h:panelGrid columns="3">
+				<p:commandButton id="addUser" action="#{usersBean.addUserForm}"
+					value="#{msg['add_user']}" update="@all" />
+				<p:commandButton id="logout" action="#{loginBean.logout}"
+					value="#{msg['logout']}" update="@all" />
+			</h:panelGrid>
+			
+			
+
+		#{usersListBean.refreshList()}
+		#{positionsBean.refreshList()}
+			<br />
+			<p:dataTable id="users" value="#{usersListBean.users}" var="u"
+				styleClass="noborder">
+				<p:column>
+					<f:facet name="header">#{msg['username2']}</f:facet>
+					<h:inputText value="#{u.user_login}" size="10"
+						rendered="#{u.editable}" />
+					<h:outputText value="#{u.user_login}" rendered="#{not u.editable}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msg['email2']}</f:facet>
+					<h:inputText value="#{u.user_email}" size="25"
+						rendered="#{u.editable}" />
+					<h:outputText value="#{u.user_email}" rendered="#{not u.editable}" />
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msg['position']}</f:facet>
+					<h:selectOneMenu value="#{u.user_position_id}"
+						rendered="#{not u.editable}">
+						<f:selectItems value="#{positionsBean.positions}" var="p"
+							itemValue="#{p.position_id}" itemLabel="#{p.position_name}" />
+					</h:selectOneMenu>
+					<h:selectOneMenu value="#{u.user_position_id}"
+						rendered="#{u.editable}">
+						<f:selectItems value="#{positionsBean.positions}" var="p"
+							itemValue="#{p.position_id}" itemLabel="#{p.position_name}" />
+					</h:selectOneMenu>
+				</p:column>
+				<p:column>
+					<f:facet name="header">#{msg['action']}</f:facet>
+					<p:commandButton value="#{msg['edit']}"
+						action="#{usersBean.editUser(u)}" update="@all" />
+
+					<p:commandButton value="#{msg['remove']}"
+						actionListener="#{usersBean.deleteUser(u)}" update="@all">
+						<p:confirm header="#{msg['confirmation']}"
+							message="#{msg['ifDelete']}" icon="ui-icon-alert" />
+					</p:commandButton>
+
+					<p:confirmDialog global="true" showEffect="fade"
+						hideEffect="explode" widgetVar="confirmDeleteUser"
+						appendTo="@(body)">
+						<p:commandButton value="#{msg['yes']}" type="button"
+							onclick="confirmDeleteUser.hide()"
+							styleClass="ui-confirmdialog-yes" icon="ui-icon-check">
+						</p:commandButton>
+						<p:commandButton value="#{msg['no']}" type="button"
+							onclick="confirmDeleteUser.hide()"
+							styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+					</p:confirmDialog>
+
+					<p:commandButton value="#{msg['save']}"
+						action="#{usersBean.updateUser(u)}" update="@all" />
+				</p:column>
+			</p:dataTable>
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

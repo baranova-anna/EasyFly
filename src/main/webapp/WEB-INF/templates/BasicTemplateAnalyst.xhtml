@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<f:view locale="#{language.localedef}">
+
+	<h:head>
+		<script type="text/javascript">
+			PrimeFaces.locales['ru'] = {
+				closeText : 'Закрыть',
+				prevText : 'Назад',
+				nextText : 'Вперёд',
+				currentText : 'Home',
+				monthNames : [ 'Январь', 'Февраль', 'Март', 'Апрель', 'Май',
+						'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь',
+						'Ноябрь', 'Декабрь' ],
+				monthNamesShort : [ 'Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн',
+						'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек' ],
+				dayNames : [ 'Воскресенье', 'Понедельник', 'Вторник', 'Среда',
+						'Четверг', 'Пятница', 'Суббота' ],
+				dayNamesShort : [ 'Воск', 'Пон', 'Вт', 'Ср', 'Четв', 'Пят',
+						'Суб' ],
+				dayNamesMin : [ 'Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб' ],
+				weekHeader : 'Неделя',
+				FirstDay : 1,
+				isRTL : false,
+				showMonthAfterYear : false,
+				yearSuffix : '',
+				timeOnlyTitle : 'Только время',
+				timeText : 'Время',
+				hourText : 'Час',
+				minuteText : 'Минута',
+				secondText : 'Секунда',
+				currentText : 'Сегодня',
+				ampm : false,
+				month : 'Месяц',
+				week : 'неделя',
+				day : 'День',
+				allDayText : 'Весь день'
+			};
+		</script>
+
+	</h:head>
+
+	<h:head>
+		<title><ui:insert name="title">Air tickets</ui:insert></title>
+		<link href="resources/css/style.css" rel="stylesheet" type="text/css" />
+		<h:outputStylesheet name="css/style.css" />
+
+	</h:head>
+	<h:body style="background: url(resources/images/back.jpg)">
+		<div style="border-width: 2px; border-style: none;">
+			<ui:insert name="header">
+				<ui:include src="headerAnalyst.xhtml" />
+			</ui:insert>
+		</div>
+		<br />
+
+		<ui:insert name="content">
+			<ui:include src="content.xhtml" />
+		</ui:insert>
+
+		<br />
+		<div style="border-width: 2px; border-style: none;">
+			<ui:insert name="footer">
+				<ui:include src="footer.xhtml" />
+			</ui:insert>
+		</div>
+	</h:body>
+</f:view>
+</html>
