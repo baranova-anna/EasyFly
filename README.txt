@@ -1,11 +1,13 @@
-Airline Booking Office
+Coursework "Airline Booking Office", Bionic University, group E-9 
 
 Used technologies:
 
 Maven
-JPA
+JPA (EclipseLink)
 JSF, Primefaces
 Spring
 Tomcat
+
+Environment: Eclipse IDE
 
 
